@@ -7,8 +7,7 @@ export default class DecimalCal extends Component{
   constructor (props) {
     super (props);
     this.state = {
-      keyBoards: [1, 2, 3, '÷', 4, 5, 6, '+', 7, 8, 9, '-', '(', 0, ')', '×', '.', 'n²', '√￣', 'AC', 'C', '='],
-      string: ""
+      keyBoards: [1, 2, 3, '÷', 4, 5, 6, '+', 7, 8, 9, '-', '(', 0, ')', '×', '.', 'n²', '√￣', '🚮', '⬅', '=']
     };
   }
   onPressKey (key) {

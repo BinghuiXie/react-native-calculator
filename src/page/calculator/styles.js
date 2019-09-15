@@ -7,7 +7,14 @@ const styles = StyleSheet.create({
   },
   resultWrapper: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#000000'
+  },
+  historyIcon: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 24,
+    height: 24
   },
   textInput: {
     color: '#ffffff',
