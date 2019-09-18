@@ -1,4 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+const inputWidth = width * 0.85;
 
 const styles = StyleSheet.create({
   calculatorImplement: {
@@ -7,12 +11,19 @@ const styles = StyleSheet.create({
   },
   resultWrapper: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#000000'
   },
-  historyIcon: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
+  showExpression: {
+    flex: 5
+  },
+  menu: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 20,
+    alignItems: 'center'
+  },
+  Icon: {
     width: 24,
     height: 24
   },

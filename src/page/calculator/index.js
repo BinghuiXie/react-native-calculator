@@ -6,6 +6,8 @@ import styles from './styles'
 
 import DecimalCal from "./components/decimalCal";
 import Hexadecimal from "./components/Hexadecimal";
+import Menu from "./components/Menu";
+import UnitConversion from "./components/UnitConverse";
 
 const utli = new Utlis();
 
@@ -19,9 +21,9 @@ export default class CalculatorImplement extends Component{
       result: "",
       calTypes: ['10', '0x', 'km', '$', '%', '^2'],
       currentIndex: 0,
-      expressStart: 0,
-      expressEnd: 0
+      showMenu: false
     };
+    this.getCurrentType = this.getCurrentType.bind(this);
   }
   
   getInputValue = (key) => {
@@ -105,54 +107,156 @@ export default class CalculatorImplement extends Component{
     }
   }
   
+  onOpenMenu = () => {
+    let { showMenu } = this.state;
+    showMenu = true;
+    this.setState({
+      showMenu
+    })
+  };
+  
+  showHome = (showMenu) => {
+    this.setState({
+      showMenu
+    })
+  };
+  
+  getCurrentType () {
+    const { currentIndex } = this.state;
+    if (currentIndex === 0 || currentIndex === 1) {
+      return (
+        <View style={{flex: 1}}>
+          <View style={styles.resultWrapper}>
+            <View style={styles.showExpression}>
+              <TextInput style={styles.textInput}>
+                { showValue.join("") }
+              </TextInput>
+              <Text style={[styles.textInput, styles.calResult]}>
+                { result }
+              </Text>
+            </View>
+            <View style={styles.menu}>
+              <TouchableOpacity
+                style={styles.Icon}
+                activeOpacity={0.7}
+                onPress={this.onOpenMenu}
+              >
+                <Image
+                  style={{width: 24, height: 24}}
+                  source={require('../../assets/icons/menu.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.historyIcon}
+                activeOpacity={0.7}
+              >
+                <Image
+                  style={{width: 24, height: 24}}
+                  source={require('../../assets/icons/history.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.inputWrapper}>
+            <View style={styles.keyboard}>
+              {
+                this.getCurrentComponent(currentIndex)
+              }
+            </View>
+          </View>
+        </View>
+      )
+    }
+    switch (currentIndex) {
+      case 2:
+        return (
+          <UnitConversion />
+        );
+      // case 3:
+      //   return (
+      //
+      //   );
+      // case 4:
+      //   return (
+      //
+      //   );
+    }
+  }
+  
+  switchType = (index, showMenu) => {
+    let { inputValue, showValue, result } = this.state;
+    inputValue = [];
+    showValue = [];
+    result = "";
+    this.setState({
+      currentIndex: index,
+      inputValue,
+      showValue,
+      result,
+      showMenu
+    })
+  };
+  
   render() {
-    const { showValue, calTypes, result, currentIndex, operand } = this.state;
+    const { showValue, calTypes, result, currentIndex, showMenu } = this.state;
     return (
       <View style={styles.calculatorImplement}>
-        <View style={styles.resultWrapper}>
-          <TextInput style={styles.textInput}>
-            { showValue.join("") }
-          </TextInput>
-          <Text style={[styles.textInput, styles.calResult]}>
-            { result }
-          </Text>
-          <TouchableOpacity
-            style={styles.historyIcon}
-            activeOpacity={0.7}
-          >
-            <Image
-              style={{width: 24, height: 24}}
-              source={require('../../assets/icons/history.png')}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.inputWrapper}>
-          <View style={styles.navigation}>
-            {
-              calTypes.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    style={[
-                        styles.navigationItem,
-                        currentIndex === index ? styles.navigationActive : null
-                    ]}
-                    key={item}
-                    onPress={() => {this.onPressButton(index)}}
-                  >
-                    <Text>
-                      { item }
-                    </Text>
-                  </TouchableOpacity>
-                )
-              })
-            }
-          </View>
-          <View style={styles.keyboard}>
-            {
-              this.getCurrentComponent(currentIndex)
-            }
-          </View>
-        </View>
+        {
+          showMenu ?
+            <Menu
+              navigateToHome={this.showHome}
+              getCurrentIndex={this.switchType}
+            /> :
+            <View style={{flex: 1}}>
+              {
+                currentIndex === 0 || currentIndex === 1 ?
+                  <View style={{flex: 1}}>
+                    <View style={styles.resultWrapper}>
+                      <View style={styles.showExpression}>
+                        <TextInput style={styles.textInput}>
+                          { showValue.join("") }
+                        </TextInput>
+                        <Text style={[styles.textInput, styles.calResult]}>
+                          { result }
+                        </Text>
+                      </View>
+                      <View style={styles.menu}>
+                        <TouchableOpacity
+                          style={styles.Icon}
+                          activeOpacity={0.7}
+                          onPress={this.onOpenMenu}
+                        >
+                          <Image
+                            style={{width: 24, height: 24}}
+                            source={require('../../assets/icons/menu.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.historyIcon}
+                          activeOpacity={0.7}
+                        >
+                          <Image
+                            style={{width: 24, height: 24}}
+                            source={require('../../assets/icons/history.png')}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    <View style={styles.inputWrapper}>
+                      <View style={styles.keyboard}>
+                        {
+                          this.getCurrentComponent(currentIndex)
+                        }
+                      </View>
+                    </View>
+                  </View>
+                  :
+                  <View>
+                  
+                  </View>
+              }
+            </View>
+        }
       </View>
     )
   }

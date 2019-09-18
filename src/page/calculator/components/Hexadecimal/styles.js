@@ -3,8 +3,8 @@ import { StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 const deviceWidth = width;
 const deviceHeight = height;
-const keyWidth = (deviceWidth - 65) / 4;
-const keyHeight = keyWidth;
+const keyWidth = deviceWidth / 4;
+const keyHeight = height * 1.93 / 3 / 6;
 
 const styles = StyleSheet.create({
   keyboard: {
