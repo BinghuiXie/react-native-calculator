@@ -8,6 +8,7 @@ import DecimalCal from "./components/decimalCal";
 import Hexadecimal from "./components/Hexadecimal";
 import Menu from "./components/Menu";
 import UnitConversion from "./components/UnitConverse";
+import ExchangeRate from "./components/exchangeRate";
 
 const utli = new Utlis();
 
@@ -122,7 +123,7 @@ export default class CalculatorImplement extends Component{
   };
   
   getCurrentType () {
-    const { currentIndex } = this.state;
+    const { currentIndex, showValue, result } = this.state;
     if (currentIndex === 0 || currentIndex === 1) {
       return (
         <View style={{flex: 1}}>
@@ -147,7 +148,7 @@ export default class CalculatorImplement extends Component{
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.historyIcon}
+                style={styles.Icon}
                 activeOpacity={0.7}
               >
                 <Image
@@ -170,12 +171,12 @@ export default class CalculatorImplement extends Component{
     switch (currentIndex) {
       case 2:
         return (
-          <UnitConversion />
+          <UnitConversion onOpenMenu={this.onOpenMenu}/>
         );
-      // case 3:
-      //   return (
-      //
-      //   );
+      case 3:
+        return (
+          <ExchangeRate onOpenMenu={this.onOpenMenu} />
+        );
       // case 4:
       //   return (
       //
@@ -198,65 +199,20 @@ export default class CalculatorImplement extends Component{
   };
   
   render() {
-    const { showValue, calTypes, result, currentIndex, showMenu } = this.state;
+    const { showMenu } = this.state;
     return (
       <View style={styles.calculatorImplement}>
-        {
-          showMenu ?
-            <Menu
-              navigateToHome={this.showHome}
-              getCurrentIndex={this.switchType}
-            /> :
-            <View style={{flex: 1}}>
-              {
-                currentIndex === 0 || currentIndex === 1 ?
-                  <View style={{flex: 1}}>
-                    <View style={styles.resultWrapper}>
-                      <View style={styles.showExpression}>
-                        <TextInput style={styles.textInput}>
-                          { showValue.join("") }
-                        </TextInput>
-                        <Text style={[styles.textInput, styles.calResult]}>
-                          { result }
-                        </Text>
-                      </View>
-                      <View style={styles.menu}>
-                        <TouchableOpacity
-                          style={styles.Icon}
-                          activeOpacity={0.7}
-                          onPress={this.onOpenMenu}
-                        >
-                          <Image
-                            style={{width: 24, height: 24}}
-                            source={require('../../assets/icons/menu.png')}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.historyIcon}
-                          activeOpacity={0.7}
-                        >
-                          <Image
-                            style={{width: 24, height: 24}}
-                            source={require('../../assets/icons/history.png')}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    <View style={styles.inputWrapper}>
-                      <View style={styles.keyboard}>
-                        {
-                          this.getCurrentComponent(currentIndex)
-                        }
-                      </View>
-                    </View>
-                  </View>
-                  :
-                  <View>
-                  
-                  </View>
-              }
-            </View>
-        }
+        <View style={{flex: 1}}>
+          {
+            this.getCurrentType()
+          }
+        </View>
+        <Menu
+          showMenu={showMenu}
+          ref={ (e) => this.menu = e }
+          navigateToHome={this.showHome}
+          getCurrentIndex={this.switchType}
+        />
       </View>
     )
   }

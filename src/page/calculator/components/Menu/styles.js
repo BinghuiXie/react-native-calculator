@@ -4,7 +4,22 @@ const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   menuWrapper: {
-    flex: 1
+    width: width,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'rgba(0, 0, 0, .5)',
+    transform: [{translateX: width}]
+  },
+  menuContainer: {
+    width: width * 0.8,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#eeeeee',
   },
   backHome: {
     position: 'absolute',
@@ -33,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   menuItem: {
-    width: width * 0.8,
+    width: width * 0.6,
     height: 50,
     borderWidth: 1,
     borderRadius: 4,
